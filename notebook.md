@@ -1,9 +1,11 @@
 20210826:
+
 All the work yesterday was not in a git repo. I created this repo, moved the code in, created a .gitignore, LICENSE, and README file.
 
 Added the dev setup instructions to the README.
 
 20210825:
+
 Started the project, loosely inspired by [this video in which a guy created a Minecraft "clone" in C in 48 hours](https://youtu.be/4O0_-1NaWnY).
 
 Goal for day 1 was just to get a window on the screen. Got the initial code set up following a mix of:
