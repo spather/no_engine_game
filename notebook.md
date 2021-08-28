@@ -1,3 +1,12 @@
+20210827:
+
+Meta: created this notebook file and added the notes from yesterday and the day before.
+
+Implemented the code from the [Hello Triangle tutorial](https://learnopengl.com/Getting-started/Hello-Triangle) that gets a triangle to draw on the screen. It works but:
+* The triangle isn't centered, like shown in the tutorial screenshot.
+* It only works if you run the binary from the bin/ directory because it only knows how to load the shaders from the cwd.
+* There are lots of TODO comments for things missing.
+
 20210826:
 
 All the work yesterday was not in a git repo. I created this repo, moved the code in, created a .gitignore, LICENSE, and README file.

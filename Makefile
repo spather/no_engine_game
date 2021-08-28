@@ -18,6 +18,8 @@ dirs:
 
 main: $(OBJ)
 	$(CPPC) -o $(BIN)/main $^ $(LDFLAGS)
+	cp src/*.frag bin/
+	cp src/*.vert bin/
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
