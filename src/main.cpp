@@ -25,6 +25,7 @@ int main() {
   GLFWwindow* window = glfwCreateWindow(1024, 768, "GL Playground", NULL, NULL);
   if (!window) {
     cerr << "Couldn't create window" << endl;
+    glfwTerminate();
     return 1;
   }
 
