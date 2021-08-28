@@ -37,8 +37,15 @@ int main() {
     return 1;
   }
 
+  glViewport(0, 0, 1024, 768);
+
   while (!glfwWindowShouldClose(window)) {
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     glfwPollEvents();
+    glfwSwapBuffers(window);
   }
 
   glfwDestroyWindow(window);
