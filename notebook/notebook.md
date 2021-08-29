@@ -1,3 +1,24 @@
+20210829:
+
+Yesterday I noticed that though the triangle is originally drawn in the wrong position, as soon as you move the window it fixes itself.
+
+<p align="center">
+  <img alt="Video showing the triangle in the wrong position and centering itself when the window is moved." src="assets/triangle-wrong-size-until-moved.gif" />
+</p>
+
+I had vaguely remembered reading something about problems on MacOS until you move the window, and that's what inspired me to try this.
+
+I then spent a lot of time googling for solutions. Some posts that looked promising:
+
+* https://stackoverflow.com/questions/59405118/triangle-draws-in-wrong-place-before-window-resize
+* https://bleepcoder.com/glfw/364324977/cannot-draw-any-content-initially-on-macos-10-14-until
+
+One of the comments pointed to [this commit](https://github.com/kovidgoyal/kitty/commit/b82e74f99ae30599cd88ef6a1216625b57a0414a) which fixes it by calling update on the underlying `NSOpenGLContext` a few times. I started down the road of trying to do that, by integrating one Objective-C compilation unit that exposes a C function to do the `[NSOpenGLContext update]`. I only briefly tried but ran into some build problems that I didn't have time to dig into last night.
+
+It did occur to me that some of the posts I found mentioned that the problems were happening on Mojave. I was on Catalina but was overdue for an upgrade to Big Sur, so tried that in the hopes it would fix it. Nope.
+
+But, I did notice that when you start the app on the external monitor i.e. not the Mac's retina display, the problem doesn't happen. That clued me into the idea that it's a problem with the retina display doing something funky with the coordinates. Googling yielded [this Stack Overflow post](https://stackoverflow.com/questions/36672935/why-retina-screen-coordinate-value-is-twice-the-value-of-pixel-value) which, I think, describes the solution I need.
+
 20210827:
 
 Meta: created this notebook file and added the notes from yesterday and the day before.
