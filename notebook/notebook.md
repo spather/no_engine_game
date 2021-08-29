@@ -19,6 +19,44 @@ It did occur to me that some of the posts I found mentioned that the problems we
 
 But, I did notice that when you start the app on the external monitor i.e. not the Mac's retina display, the problem doesn't happen. That clued me into the idea that it's a problem with the retina display doing something funky with the coordinates. Googling yielded [this Stack Overflow post](https://stackoverflow.com/questions/36672935/why-retina-screen-coordinate-value-is-twice-the-value-of-pixel-value) which, I think, describes the solution I need.
 
+...
+
+Tried it and it works! The fix basically came down to this change, in the place where I initially call `glViewport()`:
+
+```cpp
+-  glViewport(0, 0, 1024, 768);
++  GLsizei width;
++  GLsizei height;
++
++  glfwGetFramebufferSize(window, &width, &height);
++  glViewport(0, 0, width, height);
+```
+With this, the app starts and draws the triangle in the right place, on both the external monitor and the retina display. And you can move the window between them and things stay fine.
+
+I was wondering whether I also needed to call `glfwGetFramebufferSize()` in the framebuffer size callback, or whether the `width` and `height` params there are correct. Checked this by adding a debug print statement in the callback and moving the window between the retina screen and the external monitor:
+
+```cpp
+ void framebuffer_size_callback(
+     __attribute__((unused)) GLFWwindow* _window, int width, int height) {
++  cout << "in framebuffer_size_callback: width is " << width << " height is " << height << endl;
+   glViewport(0, 0, width, height);
+ }
+```
+
+Ran it starting on the retina screen, then moved it to the external monitor and saw this output:
+
+```
+in framebuffer_size_callback: width is 1024 height is 768
+```
+
+Moved it back to the retina and saw:
+
+```
+in framebuffer_size_callback: width is 2048 height is 1536
+```
+
+OK, so I think the framebuffer size callback is good and overall this problem is fixed!
+
 20210827:
 
 Meta: created this notebook file and added the notes from yesterday and the day before.

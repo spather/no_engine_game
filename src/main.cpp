@@ -55,7 +55,11 @@ int main() {
     return 1;
   }
 
-  glViewport(0, 0, 1024, 768);
+  GLsizei width;
+  GLsizei height;
+
+  glfwGetFramebufferSize(window, &width, &height);
+  glViewport(0, 0, width, height);
 
   float vertices[] = {
     -0.5f, -0.5f, 0.0f,
