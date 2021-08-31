@@ -1,3 +1,7 @@
+20210830:
+
+Started writing the ShaderProgram class. Basing it on the implementation from https://learnopengl.com/Getting-started/Shaders but trying to improve the code.
+
 20210829:
 
 Yesterday I noticed that though the triangle is originally drawn in the wrong position, as soon as you move the window it fixes itself.

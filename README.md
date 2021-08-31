@@ -20,4 +20,4 @@ make install
 This ends up installing the headers to `/usr/local/include/GLFW` and the lib to `/usr/local/lib`. If you use another method to install GLFW and the headers/lib end up somewhere else, you'll have to modify the `CFLAGS` and `LDFLAGS` in the Makefile to tell the compiler and linker where to find them.
 
 2. You should be able to then build by just running `make` from the project root.
-3. The source tree contains the files necessary to build and debug in VSCode. If you're using VSCode, you'll want to install the [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools).
+3. The source tree contains the files necessary to build and debug in VSCode. If you're using VSCode, you'll want to install the [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). You should also [enable C++ 17](https://stackoverflow.com/a/66251689).

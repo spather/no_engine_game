@@ -1,9 +1,12 @@
-#include <fstream>
+#include <filesystem>
 #include <iostream>
-#include <iterator>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <whereami.h>
 
+#include "shader_program.h"
+
+namespace fs = std::filesystem;
 using namespace std;
 
 void error_callback(int error, const char *description) {
@@ -15,14 +18,15 @@ void framebuffer_size_callback(
   glViewport(0, 0, width, height);
 }
 
-string loadFromFile(string fileName) {
-  ifstream ifs(fileName);
+fs::path getCurrentPath() {
+  int length = wai_getExecutablePath(NULL, 0, NULL);
+  int dirnameLength = 0;
 
-  // TODO: This should fail if the file can't be found
-  string content((istreambuf_iterator<char>(ifs)),
-    (istreambuf_iterator<char>()));
+  char *path = new char[length+1];
+  wai_getExecutablePath(path, length, &dirnameLength);
+  path[dirnameLength] = '\0';
 
-  return content;
+  return fs::path(path);
 }
 
 int main() {
@@ -84,42 +88,17 @@ int main() {
 
   glBindVertexArray(0); // Unbind VAO
 
-  unsigned int vertexShader;
-  vertexShader = glCreateShader(GL_VERTEX_SHADER);
+  auto path = getCurrentPath();
 
-  // TODO: make this find the file even if not loaded from the same directory
-  // as the binary.
-  const char *vertexShaderContent = loadFromFile("vertex_shader.vert").c_str();
-  glShaderSource(vertexShader, 1, &vertexShaderContent, NULL);
-  glCompileShader(vertexShader);
-  // TODO: Get compile errors (see tutorial)
-
-  unsigned int fragmentShader;
-  fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  // TODO: make this find the file even if not loaded from the same directory
-  // as the binary.
-  const char *fragmentShaderContent =
-    loadFromFile("fragment_shader.frag").c_str();
-  glShaderSource(fragmentShader, 1, &fragmentShaderContent, NULL);
-  glCompileShader(fragmentShader);
-  // TODO: Get compile errors (see tutorial)
-
-  unsigned int shaderProgram;
-  shaderProgram = glCreateProgram();
-
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-  // TODO: Get link errors (see tutorial)
-
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
+  const ShaderProgram shaderProgram(
+    (path / "vertex_shader.vert").c_str(),
+    (path / "fragment_shader.frag").c_str());
 
   while (!glfwWindowShouldClose(window)) {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shaderProgram);
+    shaderProgram.use();
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 

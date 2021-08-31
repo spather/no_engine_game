@@ -1,13 +1,13 @@
 CC = clang
 CPPC = clang++
 CFLAGS = -O3 -g -Wall -Wextra -Wpedantic -Wstrict-aliasing
-CFLAGS += -Iglad/include
+CFLAGS += -Iglad/include -Isrc/third-party/whereami
 CFLAGS += $(shell pkg-config --cflags glfw3)
 CPPFLAGS = -std=c++17
 LDFLAGS = $(shell pkg-config --static --libs glfw3) -stdlib=libc++
 
-CPPSRC = src/main.cpp
-CSRC = glad/src/glad.c
+CPPSRC = $(shell find src/ -name "*.cpp")
+CSRC = glad/src/glad.c $(shell find src/ -name "*.c")
 OBJ = $(CPPSRC:.cpp=.o) $(CSRC:.c=.o)
 BIN = bin
 
