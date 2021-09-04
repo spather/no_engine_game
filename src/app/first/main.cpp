@@ -90,20 +90,26 @@ int main() {
 
   auto path = getCurrentPath();
 
-  const ShaderProgram shaderProgram(
+  auto shaderProgram = createShaderProgram(
     (path / "vertex_shader.vert").c_str(),
     (path / "fragment_shader.frag").c_str());
 
-  while (!glfwWindowShouldClose(window)) {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+  if (shaderProgram) {
+    while (!glfwWindowShouldClose(window)) {
+      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      glClear(GL_COLOR_BUFFER_BIT);
 
-    shaderProgram.use();
-    glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+      (*shaderProgram)->use();
+      glBindVertexArray(vao);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    glfwPollEvents();
-    glfwSwapBuffers(window);
+      glfwPollEvents();
+      glfwSwapBuffers(window);
+    }
+  }
+  else {
+    cerr << "Problem creating shader program: " << endl
+      << shaderProgram.error().getMessage() << endl;
   }
 
   glfwDestroyWindow(window);

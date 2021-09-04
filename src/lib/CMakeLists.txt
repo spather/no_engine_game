@@ -7,5 +7,7 @@ add_library(no_engine_game_lib STATIC
   shader_program.cpp
 )
 
+find_package(tl-expected CONFIG REQUIRED)
+
 target_include_directories(no_engine_game_lib PUBLIC ./include)
-target_link_libraries(no_engine_game_lib glad_lib)
+target_link_libraries(no_engine_game_lib PUBLIC glad_lib tl::expected)

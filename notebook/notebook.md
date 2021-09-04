@@ -14,6 +14,10 @@ Got glfw installed via vcpkg now:
 
 At first, it just wouldn't find the glfw package. I messed around trying to re-read the docs and debug but in the end, it turns out that just deleting the CMakeCache.txt file and running CMake again made it work. So now everything is good: I fixed up the instructions in the readme to remove the step to install glfw manually as this is no longer required! Now, when you build, it installs the dependencies listed in the manifest. Awesome!
 
+...
+
+Now that I have vcpkg working, I used it to install [tl-expected](https://github.com/TartanLlama/expected), an implementation of the `std::expected` proposal. I used this to handle errors in the shader program code without throwing exceptions. I first encountered this pattern when learning to use functional patterns in a web app and coming across [`Either<E,A> in fp-ts`](https://gcanti.github.io/fp-ts/modules/Either.ts.html). I liked it then and want to try it here. So far, I'm pretty happy with how the shader program error handling turned out.
+
 20210903:
 
 The last several days have been an adventure in getting the project to build with modern CMake. I went down this road because I anticipate needing to install some additional libraries and it seemed like doing so with [vcpkg](https://github.com/microsoft/vcpkg) would be a good way to do it (vs checking in third-party code). Vcpkg integrates well with CMake so I started looking into it and liked what I saw. Particularly, I liked that modern CMake helps enforce good modularity and keeps things working cross-platform. It also seemed like a good, widely applicable tool to have in my toolbelt.
