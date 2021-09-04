@@ -32,7 +32,7 @@
 *.app
 
 # Output directory
-bin
+build
 
 # MacOS Stuff
 .DS_Store

@@ -5,17 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "clang++ - Build and debug program",
+      "name": "Launch lldb",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/main",
+      // Resolved by CMake Tools:
+      "program": "${command:cmake.launchTargetPath}",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
-      "environment": [],
-      "externalConsole": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [
+          {
+              // add the directory where our target was built to the PATH
+              "name": "PATH",
+              "value": "$PATH:${command:cmake.launchTargetDirectory}"
+          },
+      ],
+      "externalConsole": true,
       "MIMode": "lldb",
-      "preLaunchTask": "Make all"
-    }
+      "setupCommands": [
+      ],
+      "preLaunchTask": "CMake build"
+  }
   ]
 }

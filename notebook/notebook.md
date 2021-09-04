@@ -1,3 +1,25 @@
+20210903:
+
+The last several days have been an adventure in getting the project to build with modern CMake. I went down this road because I anticipate needing to install some additional libraries and it seemed like doing so with [vcpkg](https://github.com/microsoft/vcpkg) would be a good way to do it (vs checking in third-party code). Vcpkg integrates well with CMake so I started looking into it and liked what I saw. Particularly, I liked that modern CMake helps enforce good modularity and keeps things working cross-platform. It also seemed like a good, widely applicable tool to have in my toolbelt.
+
+The most useful resource I found was [this Modern CMake slide deck](https://github.com/toeb/moderncmake/blob/master/Modern%20CMake.pdf) via [this brief introduction and list of resources](https://cliutils.gitlab.io/modern-cmake/).
+
+The point about CMake encouraging modularity really seems true. To do this right, I had to separate the app code from re-usable library code (just the shader program helpers, for now). I also had to create libraries for the generated code and the one third-party library I have checked in ([whereami](https://github.com/gpakosz/whereami)). This is all goodness, relative to what I had before.
+
+I was able to get 99% of the way really quickly. But I ran into linking problems: it wouldn't automatically link against the system libraries GLFW requires (Cocoa, IOKit, CoreFoundation). I managed to figure out how to explicitly link those in CMake but I didn't want to hardcode knowledge of those dependencies into my CMakeLists.txt (rather, I wanted them to flow from GLFW).
+
+I struggled with this, almost obsessively, the last few days. I ended up [posting on StackOverflow](https://stackoverflow.com/questions/69038471/whats-the-right-way-to-link-against-glfw-in-a-macos-app-with-cmake) (that post is a good writeup of what went wrong and my attempts to fix it). I learned a lot more about CMake along the way. In the end, I was able to get it to work by abandoning `pkg-config` and just relying on the built in `find_package()`. I posted this resolution as [an answer to my own question on StackOverflow](https://stackoverflow.com/a/69051875/490982).
+
+After figuring it out in my simple repro, I ported the fix back here and got everything cleaned up. I also installed the CMake and CMake Tools VSCode extensions and got the build and debug tasks set up.
+
+20210831:
+
+Got the basic ShaderProgram class written and the main program using it. Also made it so that it can find the shader files in the same directory as the executable, regardless of where you run it from (previously, you had to run it from the bin directory for it to find the shader files).
+
+To make this work, I had to use the [whereami](https://github.com/gpakosz/whereami) library to find the path of the current executable (seemingly, this is hard to do in C++ in a platform neutral way without this library). This is my first third-party library and I'm just checking it in because there appears to be no package manager support for it.
+
+I also discovered [how to get VSCode to understand C++17 syntax](https://stackoverflow.com/a/66251689). I needed this to get the `std::filesystem` references to work but also now I can use `auto`.
+
 20210830:
 
 Started writing the ShaderProgram class. Basing it on the implementation from https://learnopengl.com/Getting-started/Shaders but trying to improve the code.
