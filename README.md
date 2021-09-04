@@ -26,3 +26,4 @@ cmake --build .
    * Install the [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools). You should also [enable C++ 17](https://stackoverflow.com/a/66251689).
    * Install the [CMake Extension](https://marketplace.visualstudio.com/items?itemName=twxs.cmake)
    * Install the [CMake Tools Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
+   * Install the [Shader languages support for VSCode Extension](https://marketplace.visualstudio.com/items?itemName=slevesque.shader)
