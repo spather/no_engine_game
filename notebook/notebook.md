@@ -1,3 +1,19 @@
+20210904:
+
+Started working on [vcpkg](https://github.com/microsoft/vcpkg) integration. Kind of confused by the docs because it seems like most of the instructions set up vcpkg as a system-wide thing vs a per-project thing. Which seems baffling - surely I'd want to have distinct installs of packages per project. But it seems like the solution is to clone vcpkg as a [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). I found this kind of buried in the docs:
+>"First, download and bootstrap vcpkg itself; it can be installed anywhere, but generally we recommend using vcpkg as a submodule for CMake projects, and installing it globally for Visual Studio projects."
+
+Set it up this way and added an instruction to the readme to init/update submodules after cloning the repo.
+
+It was also a bit of a mystery to figure out how to record dependencies in a manifest. But it turns out vcpkg has a [manifest mode](https://vcpkg.readthedocs.io/en/latest/users/manifests/) just for that.
+
+Got glfw installed via vcpkg now:
+* Uninstalled the homebrew version I had installed
+* Created a vcpkg.json manifest specifying glfw3 as a dependency
+* Changed the `find_package()` call to find glfw3 the way vcpkg suggests
+
+At first, it just wouldn't find the glfw package. I messed around trying to re-read the docs and debug but in the end, it turns out that just deleting the CMakeCache.txt file and running CMake again made it work. So now everything is good: I fixed up the instructions in the readme to remove the step to install glfw manually as this is no longer required! Now, when you build, it installs the dependencies listed in the manifest. Awesome!
+
 20210903:
 
 The last several days have been an adventure in getting the project to build with modern CMake. I went down this road because I anticipate needing to install some additional libraries and it seemed like doing so with [vcpkg](https://github.com/microsoft/vcpkg) would be a good way to do it (vs checking in third-party code). Vcpkg integrates well with CMake so I started looking into it and liked what I saw. Particularly, I liked that modern CMake helps enforce good modularity and keeps things working cross-platform. It also seemed like a good, widely applicable tool to have in my toolbelt.
@@ -8,7 +24,9 @@ The point about CMake encouraging modularity really seems true. To do this right
 
 I was able to get 99% of the way really quickly. But I ran into linking problems: it wouldn't automatically link against the system libraries GLFW requires (Cocoa, IOKit, CoreFoundation). I managed to figure out how to explicitly link those in CMake but I didn't want to hardcode knowledge of those dependencies into my CMakeLists.txt (rather, I wanted them to flow from GLFW).
 
-I struggled with this, almost obsessively, the last few days. I ended up [posting on StackOverflow](https://stackoverflow.com/questions/69038471/whats-the-right-way-to-link-against-glfw-in-a-macos-app-with-cmake) (that post is a good writeup of what went wrong and my attempts to fix it). I learned a lot more about CMake along the way. In the end, I was able to get it to work by abandoning `pkg-config` and just relying on the built in `find_package()`. I posted this resolution as [an answer to my own question on StackOverflow](https://stackoverflow.com/a/69051875/490982).
+I struggled with this, almost obsessively, the last few days. I ended up [posting on StackOverflow](https://stackoverflow.com/questions/69038471/whats-the-right-way-to-link-against-glfw-in-a-macos-app-with-cmake) (that post is a good writeup of what went wrong and my attempts to fix it). I learned a lot more about CMake along the way. As part of this, I ended up uninstalling the version of glfw I had built from source and instead installed via homebrew (hoping this might help).
+
+In the end, I was able to get it to work by abandoning `pkg-config` and just relying on the built in `find_package()`. I posted this resolution as [an answer to my own question on StackOverflow](https://stackoverflow.com/a/69051875/490982).
 
 After figuring it out in my simple repro, I ported the fix back here and got everything cleaned up. I also installed the CMake and CMake Tools VSCode extensions and got the build and debug tasks set up.
 

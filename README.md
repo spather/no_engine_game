@@ -3,17 +3,14 @@ This is an experiment in which I try to build a very simple game without a game 
 
 ## How to Build
 
-1. Install [GLFW](https://www.glfw.org/).
+1. Initialize git submodules
 
-On Mac, I did this with
+After cloning the repo, run the following to get the submodules:
 
 ```
-brew install glfw
+git submodule init
+git submodule update
 ```
-
-You can also download the source package from https://www.glfw.org/download.html and follow the [instructions to compile](https://www.glfw.org/docs/latest/compile_guide.html). You'll then have to install the built binaries and headers.
-
-Installing in the default way should set things up so that CMake can find GLFW via `find_package()`. If you install some other way, you might have CMake trouble.
 
 2. You should be able to then build as follows:
 
