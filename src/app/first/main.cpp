@@ -9,6 +9,7 @@
 namespace fs = std::filesystem;
 using namespace std;
 
+namespace no_engine_game { namespace app { namespace first {
 void error_callback(int error, const char *description) {
   cerr << "ERROR: " << error << " " << description << endl;
 }
@@ -28,6 +29,10 @@ fs::path getCurrentPath() {
 
   return fs::path(path);
 }
+}}} // namespace no_engine_game::app:first
+
+using namespace no_engine_game::lib;
+using namespace no_engine_game::app::first;
 
 int main() {
   glfwSetErrorCallback(error_callback);

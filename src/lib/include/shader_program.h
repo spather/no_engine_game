@@ -6,7 +6,7 @@
 #include <glad/glad.h>
 #include <tl/expected.hpp>
 
-// TODO: put this in a namespace
+namespace no_engine_game { namespace lib {
 
 class ShaderProgram {
 public:
@@ -29,5 +29,6 @@ tl::expected<std::unique_ptr<ShaderProgram>, ShaderProgramError> createShaderPro
   const char *vertexPath, const char *fragmentPath
 );
 
+}}
 
 #endif

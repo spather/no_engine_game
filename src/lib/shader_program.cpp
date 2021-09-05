@@ -17,6 +17,10 @@ using std::stringstream;
 using std::ostringstream;
 using std::unique_ptr;
 
+namespace no_engine_game { namespace lib {
+
+namespace impl {
+
 class ShaderProgramImpl: public ShaderProgram {
 public:
   ShaderProgramImpl(GLuint id): id_(id) {}
@@ -27,6 +31,9 @@ private:
   GLuint id_;
 };
 
+void ShaderProgramImpl::use() const {
+  glUseProgram(id_);
+}
 
 tl::expected<string, string> loadFileContents(const char *filename) {
   ifstream file;
@@ -65,10 +72,11 @@ tl::expected<GLuint, string> createAndCompileShader(
 
   return shaderID;
 }
+} // namespace impl
 
 tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
     const char *vertexPath, const char *fragmentPath) {
-  auto vSource = loadFileContents(vertexPath);
+  auto vSource = impl::loadFileContents(vertexPath);
   if (!vSource) {
     ostringstream message;
     message << "Error opening vertex shader file \""
@@ -76,7 +84,7 @@ tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
     return tl::unexpected(ShaderProgramError(message.str()));
   }
 
-  auto fSource = loadFileContents(fragmentPath);
+  auto fSource = impl::loadFileContents(fragmentPath);
   if (!fSource) {
     ostringstream message;
     message << "Error opening fragment shader file \""
@@ -84,8 +92,8 @@ tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
     return tl::unexpected(ShaderProgramError(message.str()));
   }
 
-  auto vertex = createAndCompileShader(GL_VERTEX_SHADER, (*vSource).c_str());
-  auto frag = createAndCompileShader(GL_FRAGMENT_SHADER, (*fSource).c_str());
+  auto vertex = impl::createAndCompileShader(GL_VERTEX_SHADER, (*vSource).c_str());
+  auto frag = impl::createAndCompileShader(GL_FRAGMENT_SHADER, (*fSource).c_str());
 
   if (!vertex) {
     return tl::unexpected(ShaderProgramError(vertex.error()));
@@ -114,9 +122,7 @@ tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
   glDeleteShader(*vertex);
   glDeleteShader(*frag);
 
-  return make_unique<ShaderProgramImpl>(id);
+  return make_unique<impl::ShaderProgramImpl>(id);
 }
 
-void ShaderProgramImpl::use() const {
-  glUseProgram(id_);
-}
+}}
