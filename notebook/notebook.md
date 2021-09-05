@@ -22,6 +22,14 @@ Now that I have vcpkg working, I used it to install [tl-expected](https://github
 
 Put things in appropriate namespaces.
 
+...
+
+Read some articles to refresh my memory on rvalue references and move semantics:
+* https://stackoverflow.com/questions/270408/is-it-better-in-c-to-pass-by-value-or-pass-by-constant-reference
+* https://stackoverflow.com/questions/3106110/what-is-move-semantics
+* https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html
+
+
 20210903:
 
 The last several days have been an adventure in getting the project to build with modern CMake. I went down this road because I anticipate needing to install some additional libraries and it seemed like doing so with [vcpkg](https://github.com/microsoft/vcpkg) would be a good way to do it (vs checking in third-party code). Vcpkg integrates well with CMake so I started looking into it and liked what I saw. Particularly, I liked that modern CMake helps enforce good modularity and keeps things working cross-platform. It also seemed like a good, widely applicable tool to have in my toolbelt.

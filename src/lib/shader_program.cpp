@@ -43,10 +43,8 @@ tl::expected<string, string> loadFileContents(const char *filename) {
     return tl::unexpected(strerror(errno));
   }
 
-  string content((istreambuf_iterator<char>(file)),
+  return string((istreambuf_iterator<char>(file)),
     (istreambuf_iterator<char>()));
-
-  return content;
 }
 
 tl::expected<GLuint, string> createAndCompileShader(
