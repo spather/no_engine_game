@@ -1,3 +1,12 @@
+20210905:
+
+Read another good article about passing things by value in C++:
+* http://web.archive.org/web/20140113221447/http://cpp-next.com/archive/2009/08/want-speed-pass-by-value/
+
+Finished the last part of the "Hello Triangle" tutorial, which draws a rectangle and uses an EBO to manage the indices into the vertex array.
+
+Added the code to draw in wireframe mode but leaving it commented out.
+
 20210904:
 
 Started working on [vcpkg](https://github.com/microsoft/vcpkg) integration. Kind of confused by the docs because it seems like most of the instructions set up vcpkg as a system-wide thing vs a per-project thing. Which seems baffling - surely I'd want to have distinct installs of packages per project. But it seems like the solution is to clone vcpkg as a [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules). I found this kind of buried in the docs:
