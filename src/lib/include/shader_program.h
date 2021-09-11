@@ -1,6 +1,7 @@
 #ifndef SHADER_PROGRAM_H
 #define SHADER_PROGRAM_H
 
+#include <memory>
 #include <string>
 
 #include <glad/glad.h>
