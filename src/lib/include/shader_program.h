@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 #include <tl/expected.hpp>
 
+#include "error.h"
+
 namespace no_engine_game { namespace lib {
 
 class ShaderProgram {
@@ -15,17 +17,7 @@ public:
    virtual void use() const = 0;
 };
 
-class ShaderProgramError {
-public:
-  ShaderProgramError(std::string message): message_(message) {}
-
-  std::string getMessage() { return message_; }
-
-private:
-  std::string message_;
-};
-
-tl::expected<std::unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
+tl::expected<std::unique_ptr<ShaderProgram>, Error> createShaderProgram(
   const char *vertexPath, const char *fragmentPath
 );
 

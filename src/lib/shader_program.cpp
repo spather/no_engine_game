@@ -72,14 +72,14 @@ tl::expected<GLuint, string> createAndCompileShader(
 }
 } // namespace impl
 
-tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
+tl::expected<unique_ptr<ShaderProgram>, Error> createShaderProgram(
     const char *vertexPath, const char *fragmentPath) {
   auto vSource = impl::loadFileContents(vertexPath);
   if (!vSource) {
     ostringstream message;
     message << "Error opening vertex shader file \""
       << vertexPath << "\": " << vSource.error();
-    return tl::unexpected(ShaderProgramError(message.str()));
+    return tl::unexpected(Error(message.str()));
   }
 
   auto fSource = impl::loadFileContents(fragmentPath);
@@ -87,18 +87,18 @@ tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
     ostringstream message;
     message << "Error opening fragment shader file \""
       << fragmentPath << "\": " << fSource.error();
-    return tl::unexpected(ShaderProgramError(message.str()));
+    return tl::unexpected(Error(message.str()));
   }
 
   auto vertex = impl::createAndCompileShader(GL_VERTEX_SHADER, (*vSource).c_str());
   auto frag = impl::createAndCompileShader(GL_FRAGMENT_SHADER, (*fSource).c_str());
 
   if (!vertex) {
-    return tl::unexpected(ShaderProgramError(vertex.error()));
+    return tl::unexpected(Error(vertex.error()));
   }
 
   if (!frag) {
-    return tl::unexpected(ShaderProgramError(frag.error()));
+    return tl::unexpected(Error(frag.error()));
   }
 
   auto id = glCreateProgram();
@@ -114,7 +114,7 @@ tl::expected<unique_ptr<ShaderProgram>, ShaderProgramError> createShaderProgram(
     ostringstream message;
     message << "Error linking shader program: "
       << endl << infoLog;
-    return tl::unexpected(ShaderProgramError(message.str()));
+    return tl::unexpected(Error(message.str()));
   }
 
   glDeleteShader(*vertex);
