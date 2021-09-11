@@ -20,3 +20,8 @@ target_link_libraries(first
 
 configure_file(fragment_shader.frag ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/fragment_shader.frag COPYONLY)
 configure_file(vertex_shader.vert ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/vertex_shader.vert COPYONLY)
+
+add_custom_target(make-textures-directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/textures)
+
+configure_file(textures/container.jpg ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/textures/container.jpg COPYONLY)

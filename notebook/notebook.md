@@ -1,3 +1,11 @@
+20210911:
+Implemented the new texture classes in the library and made the app use them. For now, a lot of the texture parameters are hardcoded in the library. Depending on what I end up needing to vary, I'll make some of this parameterized. So at this point I feel good enough about the texture
+tutorial implementation so far to commit.
+
+20210910:
+
+Haven't had much time to work on this project this week. In writing the new textures code, I found myself needing to create a representation for texture load errors. But then I realized I'm not yet convinced I need to programmatically do anything with errors besides just printing them. So for now, I'm just going to create one Error class to use for everything and I'll do something more complex when I need it. To accomplish this, I first created the new Error class and then made the existing ShaderProgram library class use it.
+
 20210905:
 
 Read another good article about passing things by value in C++:
@@ -6,6 +14,10 @@ Read another good article about passing things by value in C++:
 Finished the last part of the "Hello Triangle" tutorial, which draws a rectangle and uses an EBO to manage the indices into the vertex array.
 
 Added the code to draw in wireframe mode but leaving it commented out.
+
+Read through the [shaders tutorial](https://learnopengl.com/Getting-started/Shaders). It all seemed pretty straightforward and I didn't feel the need to implement it.
+
+Moved on to the [textures tutorial](https://learnopengl.com/Getting-started/Textures) and implemented that. I was happy about how easy it was to integrate the [stb image library](https://github.com/nothings/stb/blob/master/stb_image.h) via vcpkg and to get CMake to create the textures directory in the build output. Got it working but I need to clean up a few things in the code before committing.
 
 20210904:
 
