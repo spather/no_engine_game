@@ -19,6 +19,7 @@ public:
   TextureImpl(GLuint id): id_(id) {}
 
   void bind() const override {
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, id_);
   }
 private:
