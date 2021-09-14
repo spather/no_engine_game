@@ -18,7 +18,7 @@ public:
 };
 
 tl::expected<std::unique_ptr<Texture>, Error> loadTexture(
-    const char *filename);
+    const char *filename, GLenum pixelDataFormat);
 
 }}
 

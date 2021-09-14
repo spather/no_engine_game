@@ -121,7 +121,9 @@ int main() {
     (path / "vertex_shader.vert").c_str(),
     (path / "fragment_shader.frag").c_str());
 
-  auto texture = loadTexture((path / "textures" / "container.jpg").c_str());
+  auto texture = loadTexture(
+      (path / "textures" / "container.jpg").c_str(),
+      GL_RGB);
 
   if (shaderProgram && texture) {
     while (!glfwWindowShouldClose(window)) {

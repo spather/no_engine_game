@@ -41,7 +41,8 @@ private:
 
 } // impl namespace
 
-tl::expected<unique_ptr<Texture>, Error> loadTexture(const char *filename) {
+tl::expected<unique_ptr<Texture>, Error> loadTexture(
+    const char *filename, GLenum pixelDataFormat) {
   int txWidth, txHeight, nrChannels;
   auto data = impl::stbi_data_RAIIWrapper(stbi_load(
     filename,
@@ -77,7 +78,7 @@ tl::expected<unique_ptr<Texture>, Error> loadTexture(const char *filename) {
       txWidth,
       txHeight,
       0,
-      GL_RGB,
+      pixelDataFormat,
       GL_UNSIGNED_BYTE,
       data.get());
   glGenerateMipmap(GL_TEXTURE_2D);
