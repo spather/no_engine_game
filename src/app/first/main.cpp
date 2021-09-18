@@ -121,19 +121,19 @@ int main() {
     (path / "vertex_shader.vert").c_str(),
     (path / "fragment_shader.frag").c_str());
 
-  auto texture = loadTexture(
+  auto texture0 = loadTexture(
       (path / "textures" / "container.jpg").c_str(),
       GL_RGB,
       GL_TEXTURE0);
 
-  if (shaderProgram && texture) {
+  if (shaderProgram && texture0) {
     while (!glfwWindowShouldClose(window)) {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
 
       (*shaderProgram)->use();
       glBindVertexArray(vao);
-      (*texture)->bind();
+      (*texture0)->bind();
 
       // Uncomment to draw in wireframe mode
       // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -148,9 +148,9 @@ int main() {
       cerr << "Problem creating shader program: " << endl
         << shaderProgram.error().getMessage() << endl;
     }
-    if (!texture) {
+    if (!texture0) {
       cerr << "Problem creating texture: " << endl
-        << texture.error().getMessage() << endl;
+        << texture0.error().getMessage() << endl;
     }
   }
 
