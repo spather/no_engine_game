@@ -126,7 +126,16 @@ int main() {
       GL_RGB,
       GL_TEXTURE0);
 
-  if (shaderProgram && texture0) {
+  auto texture1 = loadTexture(
+    (path / "textures" / "awesomeface.png").c_str(),
+      GL_RGBA,
+      GL_TEXTURE1);
+
+  if (shaderProgram && texture0 && texture1) {
+    (*shaderProgram)->use();
+    (*shaderProgram)->assignTextureUnitToUniform("texture0", (*texture0).get());
+    (*shaderProgram)->assignTextureUnitToUniform("texture1", (*texture1).get());
+
     while (!glfwWindowShouldClose(window)) {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
@@ -134,6 +143,7 @@ int main() {
       (*shaderProgram)->use();
       glBindVertexArray(vao);
       (*texture0)->bind();
+      (*texture1)->bind();
 
       // Uncomment to draw in wireframe mode
       // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -151,6 +161,10 @@ int main() {
     if (!texture0) {
       cerr << "Problem creating texture: " << endl
         << texture0.error().getMessage() << endl;
+    }
+    if (!texture1) {
+      cerr << "Problem creating texture: " << endl
+        << texture1.error().getMessage() << endl;
     }
   }
 

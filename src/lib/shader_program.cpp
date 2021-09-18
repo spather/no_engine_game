@@ -26,12 +26,28 @@ public:
 
   void use() const override;
 
+  void setUniform(const char *name, GLint value) override;
+
+  void assignTextureUnitToUniform(
+     const char *uniformName,
+     const Texture *texture) override;
+
 private:
   GLuint id_;
 };
 
 void ShaderProgramImpl::use() const {
   glUseProgram(id_);
+}
+
+void ShaderProgramImpl::setUniform(const char *name, GLint value) {
+  glUniform1i(glGetUniformLocation(id_, name), value);
+}
+
+void ShaderProgramImpl::assignTextureUnitToUniform(
+     const char *uniformName,
+     const Texture *texture) {
+  setUniform(uniformName, texture->getTextureUnitForUniform());
 }
 
 tl::expected<string, string> loadFileContents(const char *filename) {

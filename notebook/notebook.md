@@ -1,4 +1,15 @@
+20210918:
+
+Made the texture unit a parameter to loadTexture().
+
+Finished implementing the last part of the [textures tutorial](https://learnopengl.com/Getting-started/Textures) which involves loading a second texture and mixing it with the first. I adapted the Texture class to encapsulate texture units and be able to load different pixel formats. I also created an abstraction on `ShaderProgram` to assign the texture unit from a `Texture` directly into a uniform. I'm trying to hide the apparent implementation detail that texture units are set with `GL_TEXTURE0`, `GL_TEXTURE1` etc enum values when creating the textures but set in the uniforms as just `0`, `1`, etc. Some context on this in this [khronos forum post](https://community.khronos.org/t/why-use-or-define-texture-units-and-what-is-the-mapping-with-uniforms-and-texture-units/106265).
+
+20210914:
+
+Started the rest of the textures tutorial. Did a bit of refactoring in prep for using multiple textures with texture units. This is the start of the parameterization of the texture library that I was expecting.
+
 20210911:
+
 Implemented the new texture classes in the library and made the app use them. For now, a lot of the texture parameters are hardcoded in the library. Depending on what I end up needing to vary, I'll make some of this parameterized. So at this point I feel good enough about the texture
 tutorial implementation so far to commit.
 

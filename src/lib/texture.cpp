@@ -22,6 +22,11 @@ public:
     glActiveTexture(unit_);
     glBindTexture(GL_TEXTURE_2D, id_);
   }
+
+  unsigned int getTextureUnitForUniform() const override {
+    return unit_ - GL_TEXTURE0;
+  }
+
 private:
   GLuint id_;
   GLenum unit_;
@@ -46,6 +51,10 @@ tl::expected<unique_ptr<Texture>, Error> loadTexture(
     const char *filename,
     GLenum pixelDataFormat,
     GLenum textureUnit) {
+
+  // Should this be a parameter?
+  stbi_set_flip_vertically_on_load(true);
+
   int txWidth, txHeight, nrChannels;
   auto data = impl::stbi_data_RAIIWrapper(stbi_load(
     filename,

@@ -25,3 +25,4 @@ add_custom_target(make-textures-directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/textures)
 
 configure_file(textures/container.jpg ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/textures/container.jpg COPYONLY)
+configure_file(textures/awesomeface.png ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/textures/awesomeface.png COPYONLY)
