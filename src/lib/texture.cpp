@@ -16,14 +16,15 @@ namespace impl {
 
 class TextureImpl: public Texture {
 public:
-  TextureImpl(GLuint id): id_(id) {}
+  TextureImpl(GLuint id, GLenum unit): id_(id), unit_(unit) {}
 
   void bind() const override {
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(unit_);
     glBindTexture(GL_TEXTURE_2D, id_);
   }
 private:
   GLuint id_;
+  GLenum unit_;
 };
 
 class stbi_data_RAIIWrapper {
@@ -42,7 +43,9 @@ private:
 } // impl namespace
 
 tl::expected<unique_ptr<Texture>, Error> loadTexture(
-    const char *filename, GLenum pixelDataFormat) {
+    const char *filename,
+    GLenum pixelDataFormat,
+    GLenum textureUnit) {
   int txWidth, txHeight, nrChannels;
   auto data = impl::stbi_data_RAIIWrapper(stbi_load(
     filename,
@@ -82,7 +85,7 @@ tl::expected<unique_ptr<Texture>, Error> loadTexture(
       GL_UNSIGNED_BYTE,
       data.get());
   glGenerateMipmap(GL_TEXTURE_2D);
-  return make_unique<impl::TextureImpl>(texture);
+  return make_unique<impl::TextureImpl>(texture, textureUnit);
 }
 
 }}

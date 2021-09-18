@@ -123,7 +123,8 @@ int main() {
 
   auto texture = loadTexture(
       (path / "textures" / "container.jpg").c_str(),
-      GL_RGB);
+      GL_RGB,
+      GL_TEXTURE0);
 
   if (shaderProgram && texture) {
     while (!glfwWindowShouldClose(window)) {
