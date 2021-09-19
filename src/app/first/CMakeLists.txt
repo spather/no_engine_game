@@ -8,6 +8,8 @@ add_executable(first main.cpp)
 
 find_package(glfw3 CONFIG REQUIRED)
 
+find_package(glm CONFIG REQUIRED)
+
 find_package(OpenGL REQUIRED)
 
 target_link_libraries(first
@@ -15,6 +17,7 @@ target_link_libraries(first
   no_engine_game_lib
   whereami_lib
   glfw
+  glm::glm
   OpenGL::GL
 )
 

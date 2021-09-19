@@ -27,6 +27,7 @@ public:
   void use() const override;
 
   void setUniform(const char *name, GLint value) override;
+  void setUniformMatrix4fv(const char *name, const GLfloat *value) override;
 
   void assignTextureUnitToUniform(
      const char *uniformName,
@@ -42,6 +43,16 @@ void ShaderProgramImpl::use() const {
 
 void ShaderProgramImpl::setUniform(const char *name, GLint value) {
   glUniform1i(glGetUniformLocation(id_, name), value);
+}
+
+void ShaderProgramImpl::setUniformMatrix4fv(
+    const char *name, const GLfloat *value) {
+  glUniformMatrix4fv(
+    glGetUniformLocation(id_, name),
+    1, // Number of matrices
+    GL_FALSE, // do not transpose
+    value
+  );
 }
 
 void ShaderProgramImpl::assignTextureUnitToUniform(

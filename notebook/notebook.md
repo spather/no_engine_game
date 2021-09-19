@@ -1,3 +1,8 @@
+20210919:
+
+Implemented the first part of the [transformations tutorial](https://learnopengl.com/Getting-started/Transformations) which introduces [`glm`](https://github.com/g-truc/glm) into the project (via vcpkg) and simply scales and rotates the object. I introduced a method on `ShaderProgram` to set a `mat4` uniform. I had to give the function a dedicated name (vs just overloading `setUniform`) because all the `glUniformMatrix*()` methods take the same value type, so it's impossible to write unique overloads for each of these.
+
+
 20210918:
 
 Made the texture unit a parameter to loadTexture().

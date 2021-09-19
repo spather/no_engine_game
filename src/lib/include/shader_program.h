@@ -22,6 +22,11 @@ public:
    // types.
    virtual void setUniform(const char *name, GLint value) = 0;
 
+   // Later, it might be necessary to expose parameters for
+   // the number of matrices and whether to transpose.
+   virtual void setUniformMatrix4fv(
+      const char *name, const GLfloat *value) = 0;
+
    // Assigns the texture unit associated with a `Texture` to
    // a given uniform name. The value assigned will be the regular
    // integer (starting from 0), not the literal enum values
