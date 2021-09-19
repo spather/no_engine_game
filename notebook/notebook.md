@@ -1,7 +1,46 @@
 20210919:
 
 Implemented the first part of the [transformations tutorial](https://learnopengl.com/Getting-started/Transformations) which introduces [`glm`](https://github.com/g-truc/glm) into the project (via vcpkg) and simply scales and rotates the object. I introduced a method on `ShaderProgram` to set a `mat4` uniform. I had to give the function a dedicated name (vs just overloading `setUniform`) because all the `glUniformMatrix*()` methods take the same value type, so it's impossible to write unique overloads for each of these.
+...
+Implemented the last part of the transformations tutorial, which translates the object and makes it rotate. This involved putting these
+three lines in the render loop:
 
+```cpp
+      glm::mat4 trans = glm::mat4(1.0f);
+      trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+      trans = glm::rotate(
+          trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+```
+
+Recreating the matrix and doing the translation every time instinctively seemed wasteful (though I realize it probably doesn't matter). So I tried moving the matrix creation and translation outside the loop and just leaving the rotate step in the loop. Basically:
+
+```cpp
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+
+    while (!glfwWindowShouldClose(window)) {
+      ...
+      trans = glm::rotate(
+          trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+      ...
+      glDrawElements(...);
+      ...
+    }
+
+```
+
+
+This resulted in this awesome outcome:
+
+<p align="center">
+  <img alt="Video showing the object rotating in a crazy way." src="assets/rotation-gone-wrong.gif" />
+</p>
+
+Thinking about this, I think this is the explanation:
+* The rotation amount is based on time, so effectively it goes in a sequence like "rotate 10°, rotate 11°, rotate 12°, etc." So on each pass through the loop, we are performing a whole rotation on a bigger amount, vs just an incremental rotation.
+* When you multiply transformation matrices, the transformations stack up. So this is effectively performing each successive rotation in sequence, each time.
+
+I need to think about why it seems to stop after a while and change direction.
 
 20210918:
 

@@ -139,13 +139,6 @@ int main() {
     (*shaderProgram)->assignTextureUnitToUniform("texture0", (*texture0).get());
     (*shaderProgram)->assignTextureUnitToUniform("texture1", (*texture1).get());
 
-
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
-
-    (*shaderProgram)->setUniformMatrix4fv("transform", glm::value_ptr(trans));
-
     while (!glfwWindowShouldClose(window)) {
       glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT);
@@ -154,6 +147,13 @@ int main() {
       glBindVertexArray(vao);
       (*texture0)->bind();
       (*texture1)->bind();
+
+      glm::mat4 trans = glm::mat4(1.0f);
+      trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+      trans = glm::rotate(
+          trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+
+      (*shaderProgram)->setUniformMatrix4fv("transform", glm::value_ptr(trans));
 
       // Uncomment to draw in wireframe mode
       // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
