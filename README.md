@@ -27,3 +27,13 @@ cmake --build .
    * Install the [CMake Extension](https://marketplace.visualstudio.com/items?itemName=twxs.cmake)
    * Install the [CMake Tools Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
    * Install the [Shader languages support for VSCode Extension](https://marketplace.visualstudio.com/items?itemName=slevesque.shader)
+
+4. To create the [compile_commands.json file needed by CCLS](https://github.com/MaskRay/ccls/wiki/Project-Setup#compile_commandsjson) (if you're using it as a language server):
+
+```
+cd ~/code/no_engine_game # Or wherever it's located
+mkdir -p build
+cd build
+cmake ..
+cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+```
